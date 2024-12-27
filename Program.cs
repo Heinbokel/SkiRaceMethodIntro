@@ -1,4 +1,5 @@
-﻿var processor = new SkiRaceProcessor();
+﻿// Instantiate a new SkiRaceProcessor instance with the Difficulty Modifier set to 10 (just an arbitrary number to test with).
+SkiRaceProcessor processor = new SkiRaceProcessor{DifficultyModifier = 10};
 
 // Create ski runs
 SkiRun snowyRidge = new SkiRun { SkiRunID = 1, RunName = "Snowy Ridge", RunHeight = 200.5, RunDistance = 1200.75 };

@@ -4,6 +4,9 @@ using System.Text;
 /// Class which encapsulates the logic for processing ski races.
 /// </summary>
 public class SkiRaceProcessor {
+    // Value for how much the height/distance effects a race's rating.
+    public int DifficultyModifier {get; set;}
+
     // List to hold all of our entered race stats - instantiated to an empty collection.
     private List<RaceStats> RaceStats = [];
 
@@ -40,7 +43,7 @@ public class SkiRaceProcessor {
         double runDistance = raceStats.SkiRun.RunDistance;
 
         // Step 1: Calculate a difficulty factor based on height and distance.
-        double difficultyFactor = runHeight + (runDistance / 10);
+        double difficultyFactor = runHeight + (runDistance / this.DifficultyModifier);
 
         // Step 2: Adjust the race time by dividing it by the difficulty factor.
         double adjustedTime = raceTime / difficultyFactor;
@@ -81,7 +84,7 @@ public class SkiRaceProcessor {
     /// <param name="racerID">The ID of the racer to filter by.</param>
     /// <returns>The filtered report as a String.</returns>
     public string GenerateReport(int racerID) {
-        var filteredStats = RaceStats
+        List<RaceStats> filteredStats = RaceStats
             .Where(stat => stat.SkiRacer.SkiRacerID == racerID)
             .ToList();
 
@@ -108,8 +111,8 @@ public class SkiRaceProcessor {
     private static string FormatRaceStats(RaceStats stat) {
         var sb = new StringBuilder();
         sb.AppendLine($"Racer {stat.SkiRacer.SkiRacerID}: {stat.SkiRacer.FirstName} {stat.SkiRacer.LastName} - {stat.SkiRun.RunName}");
-        sb.AppendLine($"  Race Time: {stat.RaceTime:F2}s");
-        sb.AppendLine($"  Rating: {stat.Rating:F2}/10");
+        sb.AppendLine($"  Race Time: {stat.RaceTime}s");
+        sb.AppendLine($"  Rating: {stat.Rating}/10");
         return sb.ToString();
     }
 
