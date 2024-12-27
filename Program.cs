@@ -23,6 +23,9 @@ processor.AddRaceStat(johnDoe, alpineBlast, 75.5);
 processor.AddRaceStat(janeSmith, frostbiteValley, 55.6); 
 processor.AddRaceStat(taylorJohnson, glacierPeak, 200.0); 
 
-// Generate and display the report
+// Generate and display the report for all runs/racers.
 string report = processor.GenerateReport();
 Console.WriteLine(report);
+
+// Generate and display the report for just the racer with ID 1.
+Console.WriteLine(processor.GenerateReport(1));

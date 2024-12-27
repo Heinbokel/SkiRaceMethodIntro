@@ -76,6 +76,31 @@ public class SkiRaceProcessor {
     }
 
     /// <summary>
+    /// Generates a ski race report for a specific racer by their ID.
+    /// </summary>
+    /// <param name="racerID">The ID of the racer to filter by.</param>
+    /// <returns>The filtered report as a String.</returns>
+    public string GenerateReport(int racerID) {
+        var filteredStats = RaceStats
+            .Where(stat => stat.SkiRacer.SkiRacerID == racerID)
+            .ToList();
+
+        if (!filteredStats.Any()) {
+            return $"No race statistics available for racer with ID {racerID}.";
+        }
+
+        var reportBuilder = new StringBuilder();
+        reportBuilder.AppendLine($"Ski Race Report for Racer {racerID}:");
+        reportBuilder.AppendLine("----------------");
+
+        foreach (var stat in filteredStats) {
+            reportBuilder.AppendLine(FormatRaceStats(stat));
+        }
+
+        return reportBuilder.ToString();
+    }
+
+    /// <summary>
     /// Generates the race stats portion of the ski race report.
     /// </summary>
     /// <param name="stat">The race stats to format into a report.</param>
@@ -83,8 +108,9 @@ public class SkiRaceProcessor {
     private static string FormatRaceStats(RaceStats stat) {
         var sb = new StringBuilder();
         sb.AppendLine($"Racer {stat.SkiRacer.SkiRacerID}: {stat.SkiRacer.FirstName} {stat.SkiRacer.LastName} - {stat.SkiRun.RunName}");
-        sb.AppendLine($"  Race Time: {stat.RaceTime}s");
-        sb.AppendLine($"  Rating: {stat.Rating}/10");
+        sb.AppendLine($"  Race Time: {stat.RaceTime:F2}s");
+        sb.AppendLine($"  Rating: {stat.Rating:F2}/10");
         return sb.ToString();
     }
+
 }
